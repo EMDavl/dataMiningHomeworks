@@ -25,7 +25,7 @@ public class YoutubeVideosParser {
     private static final String SEARCH_ORDER = "date";
     private static final List<String> SEARCH_TYPE = List.of("video");
     private static final List<String> REQUEST_PART = List.of("snippet");
-    private final String API_KEY = "AIzaSyAXU2VNpvCaQYctxZSMP14DZ4vlj-hVeFI";
+    private final String API_KEY = "PASTE_YOUR_API_KEY_HERE"; // <--------- PASTE YOUR API KEY
     private static final String APPLICATION_NAME = "dataMiningCrawler";
     // =============================================
 
