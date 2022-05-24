@@ -2,6 +2,7 @@ package ru.itis.metrics;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,11 +14,17 @@ public class JacardCoef {
         this.metrics = metrics;
     }
 
-    public void calculate(List<String> textWords) {
+    public Map<String, BigDecimal> calculate(List<String> textWords) {
         System.out.println("========== JACARD =============");
+        Map<String, BigDecimal> res = new HashMap<>();
+
         for (Map.Entry<String, List<String>> e : metrics.entrySet()) {
-            System.out.println(e.getKey() + " " + countJacard(textWords, e.getValue()).round(new MathContext(2)));
+            BigDecimal counted = countJacard(textWords, e.getValue()).round(new MathContext(2));
+            System.out.println(e.getKey() + " " + counted);
+            res.put(e.getKey(), counted.subtract(BigDecimal.ONE).abs());
         }
+
+        return res;
     }
 
     private BigDecimal countJacard(List<String> text, List<String> base) {

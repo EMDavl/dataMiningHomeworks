@@ -4,6 +4,8 @@ import ru.itis.metrics.CosinusMetric;
 import ru.itis.metrics.JacardCoef;
 import ru.itis.services.WordProcessor;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,10 +29,24 @@ public class Runner {
                 "news", news);
 
         JacardCoef jakardCoef = new JacardCoef(metrics);
-        jakardCoef.calculate(textWords);
+        Map<String, BigDecimal> jacardRes = jakardCoef.calculate(textWords);
 
         CosinusMetric cosinusMetric = new CosinusMetric(metrics);
-        cosinusMetric.calculate(textWords);
+        Map<String, BigDecimal> cosinusRes = cosinusMetric.calculate(textWords);
+
+        String maxKey = null;
+        double maxVal = 0;
+
+        for (Map.Entry<String, BigDecimal> e : cosinusRes.entrySet()) {
+            BigDecimal sum = e.getValue().add(jacardRes.get(e.getKey()));
+            if(maxVal < sum.doubleValue()){
+                maxKey = e.getKey();
+                maxVal = sum.doubleValue();
+            }
+        }
+
+        System.out.println("======= RESULT =======");
+        System.out.println("Nearest group: " + maxKey);
     }
 
 }

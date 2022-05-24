@@ -2,6 +2,7 @@ package ru.itis.metrics;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,16 +13,20 @@ public class CosinusMetric {
         this.metrics = metrics;
     }
 
-    public void calculate(List<String> textWords) {
+    public Map<String, BigDecimal> calculate(List<String> textWords) {
         double[] textVector = new double[metrics.size()];
         fillTextVector(textVector, textWords);
         double textVectorPower = countPower(textVector);
         int i = 0;
         System.out.println("========== COSINUS =============");
+        Map<String, BigDecimal> res = new HashMap<>();
         for (Map.Entry<String, List<String>> e : metrics.entrySet()) {
-            System.out.println(e.getKey() + " " + countCosinus(textVector, textVectorPower, i).round(new MathContext(2)));
+            BigDecimal counted = countCosinus(textVector, textVectorPower, i).round(new MathContext(2));
+            System.out.println(e.getKey() + " " + counted);
             i++;
+            res.put(e.getKey(), counted);
         }
+        return res;
     }
 
     private void fillTextVector(double[] textVector, List<String> textWords) {
